@@ -39,7 +39,10 @@ function draw() {
     snake.handleControls();
 
     if (snake.isColliding()) {
-        alert("Game Over\n\nYour score: " + points);
+        if (!alert("Game Over\n\nYour score: " + points))
+        {
+            location.reload()
+        }
         noLoop();
     }
 
