@@ -3,6 +3,7 @@ class Snake {
     constructor(x, y) {
         this.body = [new BodySegment(x, y, createVector(1, 0))];
         this.head = this.body[0];
+        this.speed = 8;
     }
 
     draw() {
@@ -38,7 +39,7 @@ class Snake {
 
 
     move() {
-        if (frameCount % 8 === 0) {
+        if (frameCount % this.speed === 0) {
             const newHead = new BodySegment(
                 this.head.x += this.head.v.x * SNAKE_SIZE,
                 this.head.y += this.head.v.y * SNAKE_SIZE,
@@ -87,6 +88,7 @@ class Snake {
 
     eatFood(food) {
         if (food.x === this.head.x && this.head.y === food.y) {
+            food.type.impactFunction(this);
             this.elongate();
             return true;
         }
