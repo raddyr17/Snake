@@ -1,4 +1,5 @@
-let HEIGHT = (WIDTH = 800);
+let WINDOW_SIZE = 32;
+let HEIGHT = (WIDTH = WINDOW_SIZE * SNAKE_SIZE);
 
 let snake, food;
 
@@ -17,6 +18,7 @@ function draw() {
     snake.draw();
     food.draw();
     snake.handleControls();
+    snake.updateSnakeEffects();
 
     if (snake.isColliding()) {
         if (!alert("Game Over\n\nYour score: " + points))
@@ -36,4 +38,8 @@ const showPoints = (points) => {
     fill(255, 255, 255);
     textSize(40);
     text("Points " + points, 330, 40);
+}
+
+function mousePressed() {
+    snake.elongate();
 }

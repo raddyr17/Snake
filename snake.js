@@ -1,9 +1,15 @@
+const SPEED = {
+    SLOW: 10,
+    NORMAL: 8,
+    FAST: 6,
+}
+
 class Snake {
 
     constructor(x, y) {
         this.body = [new BodySegment(x, y, createVector(1, 0))];
         this.head = this.body[0];
-        this.speed = 8;
+        this.speed = SPEED.NORMAL;
     }
 
     draw() {
@@ -68,13 +74,13 @@ class Snake {
     }
 
     isColliding() {
-        let withBounds = this.head.x > WIDTH - SNAKE_SIZE || this.head.x < 0 
+        let withBody = false;
+        let withBounds = this.head.x > WIDTH - SNAKE_SIZE || this.head.x < 0
             || this.head.y < 0 || this.head.y > HEIGHT - SNAKE_SIZE;
 
-        let withBody = false;
 
         for (let i = 1; i < this.body.length; i++) {
-            if (this.head.x + SNAKE_SIZE > this.body[i].x 
+            if (this.head.x + SNAKE_SIZE > this.body[i].x
                 && this.head.x < this.body[i].x + SNAKE_SIZE
                 && this.head.y + SNAKE_SIZE > this.body[i].y
                 && this.head.y < this.body[i].y + SNAKE_SIZE) {
@@ -88,10 +94,25 @@ class Snake {
 
     eatFood(food) {
         if (food.x === this.head.x && this.head.y === food.y) {
-            food.type.impactFunction(this);
+            setTimeout(food.type.impactFunction(this), 1000);
             this.elongate();
             return true;
         }
         return false;
+    }
+
+    updateSnakeEffects = () => {
+        if (!!TIMERS.speed.endT && TIMERS.speed.endT <= getCurrentSeconds()) {
+            snake.speed = SPEED.NORMAL;
+            TIMERS.speed.startT = 0;
+            TIMERS.speed.endT = 0;
+            console.log("FAST reseted");
+        }
+        if (!!TIMERS.slow.endT && TIMERS.slow.endT <= getCurrentSeconds()) {
+            snake.speed = SPEED.NORMAL;
+            TIMERS.slow.startT = 0;
+            TIMERS.slow.endT = 0;
+            console.log("SLOW reseted");
+        }
     }
 }
