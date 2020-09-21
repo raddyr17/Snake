@@ -1,4 +1,4 @@
-const SNAKE_SIZE = 25;
+let SNAKE_SIZE = 25;
 
 class BodySegment {
     constructor(x, y, v) {

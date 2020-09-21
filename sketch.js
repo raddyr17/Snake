@@ -1,31 +1,12 @@
-let HEIGHT = (WIDTH = 800);
+let WINDOW_SIZE = 32;
+let HEIGHT = (WIDTH = WINDOW_SIZE * SNAKE_SIZE);
 
-let snake;
-
-const getRandomInt = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-let food = {
-    x: getRandomInt(0, 32) * SNAKE_SIZE,
-    y: getRandomInt(0, 32) * SNAKE_SIZE,
-    draw: () => {
-        fill(0, 255, 0);
-        rect(food.x, food.y, SNAKE_SIZE, SNAKE_SIZE); 
-    }
-}
-
-
-const randomizeFoodPosition = (food) => {
-    food.x = getRandomInt(0, 32) * SNAKE_SIZE;
-    food.y = getRandomInt(0, 32) * SNAKE_SIZE;
-}
+let snake, food;
 
 function setup() {
     createCanvas(HEIGHT, WIDTH);
     snake = new Snake(WIDTH / 2, HEIGHT / 2);
+    food = new Food();
     frameRate(60);
 }
 
@@ -37,6 +18,7 @@ function draw() {
     snake.draw();
     food.draw();
     snake.handleControls();
+    snake.updateSnakeEffects();
 
     if (snake.isColliding()) {
         if (!alert("Game Over\n\nYour score: " + points))
@@ -47,7 +29,7 @@ function draw() {
     }
 
     if (snake.eatFood(food)) {
-        randomizeFoodPosition(food);
+        food = new Food();
     }
 }
 
@@ -56,6 +38,8 @@ const showPoints = (points) => {
     fill(255, 255, 255);
     textSize(40);
     text("Points " + points, 330, 40);
-    line(0, 50, WIDTH, 50);
-    fill(255, 255, 255);
+}
+
+function mousePressed() {
+    snake.elongate();
 }
