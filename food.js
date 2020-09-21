@@ -1,7 +1,7 @@
 class Food {
   constructor() {
     const maxRange = Math.floor(WIDTH / SNAKE_SIZE);
-    this.type = FOOD_TYPES[5]; //getRandomInt(0, FOOD_TYPES.length)
+    this.type = FOOD_TYPES[getRandomInt(0, FOOD_TYPES.length)];
     const shift = getShift(this.type);
     this.x = getRandomInt(0, maxRange) * SNAKE_SIZE - shift;
     this.y = getRandomInt(0, maxRange) * SNAKE_SIZE - shift;
